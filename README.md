@@ -5,11 +5,14 @@ This Node.js application is designed to monitor car sensor data. It uses **Expre
 ## Table of Contents
 
 - [Requirements](#requirements)
+- [Dependencies](#dependencies)
 - [Setup Instructions](#setup-instructions)
 - [Linting and Formatting with ESLint and Prettier](#linting-and-formatting-with-eslint-and-prettier)
 - [Packaging with `pkg`](#packaging-with-pkg)
 - [Running the Packaged Executable](#running-the-packaged-executable)
 - [Environment Variables](#environment-variables)
+- [HTML API Tester](#html-api-tester)
+- [Versioning](#versioning)
 - [Summary](#summary)
 
 ---
@@ -22,7 +25,19 @@ This Node.js application is designed to monitor car sensor data. It uses **Expre
 - [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) (for linting and code formatting)
 
 ---
+## Dependencies
 
+This project relies on the following main dependencies:
+
+- **Express**: For building the web server and handling HTTP requests.
+- **Mongoose**: For MongoDB integration and schema management.
+- **dotenv**: For loading environment variables from a `.env` file.
+- **express-validator**: For validating API request inputs.
+- **ESLint** and **Prettier**: For code linting and formatting to maintain consistent code quality.
+
+you will have to install these dependencies.
+
+---
 ## Setup Instructions
 
 ### Step 1: Clone the Repository
@@ -31,7 +46,6 @@ Clone the repository to your local environment:
 
 ```bash
 git clone https://github.com/MakaremHind/car-sensors-monitoring-app
-cd car-sensors-monitoring-app
 ```
 
 ### Step 2: Install Dependencies
@@ -168,7 +182,41 @@ MONGODB_URI=mongodb://localhost:27017/carsensors
 ```
 
 ---
+## HTML API Tester
+You can test the API endpoints using the included HTML file, accessible at `http://localhost:3000/tester`. The HTML tester provides forms for interacting with the following API functions:
 
+* `Create Car Sensor Data`: Adds a new car model with specified year, sensor type, and sensor value.
+* `Retrieve All Car Sensor Data`: Fetches all stored car sensor data.
+* `Retrieve Car Sensor Data by ID`: Fetches car data by its unique ID.
+* `Update Car Sensor Data`: Updates the sensor value for an existing car by ID.
+* `Delete Car Sensor Data`: Deletes car data from the database by ID.
+
+Each action's response will be displayed on the page in a dedicated response section for easy debugging and API testing.
+
+---
+## Versioning
+This project uses `Semantic Versioning`. Use the following commands to manage versions:
+
+Patch (e.g., 1.0.1 -> 1.0.2):
+```bash
+npm version patch
+```
+
+Minor (e.g., 1.0.0 -> 1.1.0):
+```bash
+npm version minor
+```
+
+Major (e.g., 1.0.0 -> 2.0.0):
+```bash
+npm version major
+```
+
+After updating, push changes with:
+```bash
+git push origin main --tags
+```
+---
 ## Summary
 
 1. **Run the Server**: `npm start` (for local development).
