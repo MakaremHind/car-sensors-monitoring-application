@@ -9,3 +9,5 @@ app.listen(PORT, () => {
 
 const connectDB = require("./config/database");
 connectDB();
+
+app.use("/api/cars", require("./routes/carRoutes"));
