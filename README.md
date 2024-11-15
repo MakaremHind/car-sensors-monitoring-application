@@ -53,9 +53,9 @@ MONGODB_URI=mongodb://localhost:27017/carsensors
 
 ### Step 4: Run the Server Locally
 
-To start the server in development mode, use:
+To start the server in development mode, use (on your Command Prompt terminal):
 
-```bash
+```cmd
 npm start
 ```
 

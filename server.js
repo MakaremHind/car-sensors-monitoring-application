@@ -47,8 +47,8 @@ app.use(express.static('./public'));
 const path = require('path');
 
 // Serve the car_sensors_api_tester.html file
-app.use(express.static(path.join(__dirname, './public'))); // Update with the correct path if needed
+app.use(express.static(path.join(__dirname, './public')));
 
 app.get('/tester', (req, res) => {
-  res.sendFile(path.join(__dirname, './public', 'car_sensors_api_tester.html')); // Update with the correct path if needed
+  res.sendFile(path.join(__dirname, './public', 'car_sensors_api_tester.html'));
 });
