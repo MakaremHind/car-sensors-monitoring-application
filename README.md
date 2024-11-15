@@ -26,6 +26,7 @@ This Node.js application is designed to monitor car sensor data. It uses **Expre
 - [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) (for linting and code formatting)
 
 ---
+
 ## Dependencies
 
 This project relies on the following main dependencies:
@@ -39,6 +40,7 @@ This project relies on the following main dependencies:
 you will have to install these dependencies.
 
 ---
+
 ## Setup Instructions
 
 ### Step 1: Clone the Repository
@@ -91,7 +93,7 @@ npm run lint
 ```
 
 ### Step 2: Configure Prettier
- 
+
 The `.prettierrc` configuration file contains the formatting rules. To automatically format code, use:
 
 ```bash
@@ -183,65 +185,77 @@ MONGODB_URI=mongodb://localhost:27017/carsensors
 ```
 
 ---
+
 ## HTML API Tester
+
 You can test the API endpoints using the included HTML file, accessible at `http://localhost:3000/tester`. The HTML tester provides forms for interacting with the following API functions:
 
-* `Create Car Sensor Data`: Adds a new car model with specified year, sensor type, and sensor value.
-* `Retrieve All Car Sensor Data`: Fetches all stored car sensor data.
-* `Retrieve Car Sensor Data by ID`: Fetches car data by its unique ID.
-* `Update Car Sensor Data`: Updates the sensor value for an existing car by ID.
-* `Delete Car Sensor Data`: Deletes car data from the database by ID.
+- `Create Car Sensor Data`: Adds a new car model with specified year, sensor type, and sensor value.
+- `Retrieve All Car Sensor Data`: Fetches all stored car sensor data.
+- `Retrieve Car Sensor Data by ID`: Fetches car data by its unique ID.
+- `Update Car Sensor Data`: Updates the sensor value for an existing car by ID.
+- `Delete Car Sensor Data`: Deletes car data from the database by ID.
 
 Each action's response will be displayed on the page in a dedicated response section for easy debugging and API testing.
 
 ---
+
 ## Build tool-specific configuration files
 
 ### Code Formatting with Prettier
 
 This project uses Prettier for code formatting to ensure a consistent style across the codebase. The Prettier configuration is defined in the .prettierrc file as follows:
 
-* singleQuote: false – Double quotes will be used for strings.
-* semi: true – Semicolons are added at the end of statements.
-* tabWidth: 2 – Code indentation is set to 2 spaces.
-* trailingComma: "es5" – Trailing commas are added where valid in ES5 (e.g., arrays, objects).
-* bracketSpacing: true – Spaces are added between brackets in object literals.
-* arrowParens: "avoid" – Parentheses are omitted for single-argument arrow functions.
+- singleQuote: false – Double quotes will be used for strings.
+- semi: true – Semicolons are added at the end of statements.
+- tabWidth: 2 – Code indentation is set to 2 spaces.
+- trailingComma: "es5" – Trailing commas are added where valid in ES5 (e.g., arrays, objects).
+- bracketSpacing: true – Spaces are added between brackets in object literals.
+- arrowParens: "avoid" – Parentheses are omitted for single-argument arrow functions.
 
 ### Code Linting with ESLint
+
 The project uses `ESLint` to maintain code quality. The configuration, defined in `eslint.config.mjs`, is tailored for `Node.js` and includes both recommended and custom rules.
 
 Key Configuration Details
+
 - `Base Config`: Starts with recommended ESLint settings from `@eslint/js`.
 - `Files`: Targets all `.js` files.
 - `Language Options`: (sourceType: "module" for ES modules, ecmaVersion: "latest" for modern JavaScript, globals: Includes Node.js globals (`e.g.`, require, process)).
 - `Rules`: Warns on unused variables, Enforces double quotes and semicolons, Allows console statements.
 
-
 ---
+
 ## Versioning
+
 This project uses `Semantic Versioning`. Use the following commands to manage versions:
 
 Patch (e.g., 1.0.1 -> 1.0.2):
+
 ```bash
 npm version patch
 ```
 
 Minor (e.g., 1.0.0 -> 1.1.0):
+
 ```bash
 npm version minor
 ```
 
 Major (e.g., 1.0.0 -> 2.0.0):
+
 ```bash
 npm version major
 ```
 
 After updating, push changes with:
+
 ```bash
 git push origin main --tags
 ```
+
 ---
+
 ## Summary
 
 1. **Run the Server**: `npm start` (for local development).
