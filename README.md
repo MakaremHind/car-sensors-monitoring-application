@@ -7,7 +7,7 @@ This Node.js application is designed to monitor car sensor data. It uses **Expre
 - [Requirements](#requirements)
 - [Dependencies](#dependencies)
 - [Setup Instructions](#setup-instructions)
-- [Linting and Formatting with ESLint and Prettier](#linting-and-formatting-with-eslint-and-prettier)
+- [Static Code Analysis with ESLint & Code Formatting with Prettier](#static-code-analysis-with-eslint--code-formatting-with-prettier)
 - [Packaging with `pkg`](#packaging-with-pkg)
 - [Running the Packaged Executable](#running-the-packaged-executable)
 - [Environment Variables](#environment-variables)
@@ -80,27 +80,67 @@ Your server should now be running on `http://localhost:3000`.
 
 ---
 
-## Linting and Formatting with ESLint and Prettier
+## Static Code Analysis with ESLint & Code Formatting with Prettier
 
-This project uses **ESLint** for linting and **Prettier** for code formatting to maintain code quality and consistency.
+This project uses **ESLint** for static code analysis to enforce coding standards and identify issues in the codebase, such as unused variables and potential bugs. Additionally, **Prettier** is used for code formatting to ensure consistent style across the codebase.
 
-### Step 1: Configure ESLint
+---
+### 1. Static Code Analysis with ESLint
+---
 
-The `.eslintrc.json` configuration file contains the rules for linting. You can run ESLint with:
+**ESLint** checks your code for issues based on the rules defined in the `.eslintrc.json` or `eslint.config.mjs` file.
+
+### To run static code analysis:
+
+#### Install ESLint (if not already installed):
+
+```bash
+npm install eslint --save-dev
+```
+
+#### Run ESLint:
+Run the following command to check your code for linting issues:
 
 ```bash
 npm run lint
 ```
 
-### Step 2: Configure Prettier
-
-The `.prettierrc` configuration file contains the formatting rules. To automatically format code, use:
+ESLint will check your code for adherence to the rules and provide warnings or errors as needed. For example:
 
 ```bash
-npm run format
+/path/to/project/server.js
+  10:5  warning  Unexpected console statement  no-console
+  15:3  error    Missing semicolon             semi
+
+✖ 2 problems (1 error, 1 warning)
 ```
 
-### Scripts in `package.json`
+### Configuration File:
+The ESLint configuration for this project can be found in the file `eslint.config.mjs`. This file contains the rules for static analysis.
+
+---
+
+### 2. Code Formatting with Prettier
+---
+Prettier is used to automatically format your code to maintain consistent code style. You can run Prettier to format your code according to the rules in the `.prettierrc` file.
+
+### Install Prettier (if not already installed):
+```bash
+npm install prettier --save-dev
+```
+
+### Run Prettier:
+Run the following command to automatically format your code:
+
+``` bash
+npm run format
+```
+This command will reformat the code according to the Prettier rules, ensuring consistency across the codebase.
+
+---
+
+### 3. Scripts in `package.json`
+---
 
 The `package.json` file includes the following scripts to make linting and formatting easier:
 
@@ -119,7 +159,7 @@ The `package.json` file includes the following scripts to make linting and forma
 
 ## Packaging with `pkg`
 
-You can package the application as a standalone executable using **`pkg`**. This is useful for distribution or deployment where Node.js doesn’t need to be installed.
+You can package the application as a standalone executable using **`pkg`**. This is useful for distribution or deployment where `Node.js` doesn’t need to be installed.
 
 ### Step 1: Install `pkg`
 
