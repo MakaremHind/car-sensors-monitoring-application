@@ -12,8 +12,8 @@ export default [
       globals: globals.node, // Set Node.js globals
     },
     rules: {
-      "no-unused-vars": "warn", // Warns on unused variables
-      quotes: ["error", "double"], // Enforce single quotes
+      "no-unused-vars": "error", // Change from 'warn' to 'error' so ESLint can fix it
+      quotes: ["error", "double"], // Enforce double quotes
       semi: ["error", "always"], // Enforce semicolons
       "no-console": "off", // Allow console logs (useful for Node.js)
     },
