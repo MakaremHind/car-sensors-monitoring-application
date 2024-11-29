@@ -7,7 +7,6 @@ mongoose.set("strictQuery", true);
 
 const app = express();
 
-const unusedVariable = 42;
 
 app.use(express.json());
 

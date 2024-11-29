@@ -3,7 +3,6 @@ const { check } = require("express-validator");
 const carController = require("../controllers/carController");
 
 const router = express.Router();
-const unsed_var=30;
 
 // Define routes
 router.post(
