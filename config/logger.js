@@ -12,7 +12,6 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console({ format: winston.format.simple() }), // Log to console
-    // You can add more transports here, e.g., to log to files or external services
   ],
 });
 

@@ -2,7 +2,7 @@
 const express = require("express");
 const { check } = require("express-validator");
 const carController = require("../controllers/carController");
-const logger = require("../logger");  // Import the logger
+const logger = require('../config/logger');  // Correct because carRoutes.js is inside the routes folder
 
 const router = express.Router();
 
