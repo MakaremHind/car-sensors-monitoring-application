@@ -1,9 +1,12 @@
+// CarController.js
 const Car = require("../models/Car");
 const { validationResult } = require("express-validator");
+const logger = require("../logger");  // Import the logger
 
 exports.createCar = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    logger.warn("Validation errors:", errors.array());
     return res.status(400).json({ errors: errors.array() });
   }
 
@@ -12,8 +15,10 @@ exports.createCar = async (req, res) => {
   try {
     const car = new Car({ model, year, sensors });
     await car.save();
+    logger.info(`Car created: ${car.model} (${car.year})`);
     res.status(201).json(car);
   } catch (error) {
+    logger.error("Error creating car:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -21,8 +26,10 @@ exports.createCar = async (req, res) => {
 exports.getCars = async (req, res) => {
   try {
     const cars = await Car.find();
+    logger.info("Fetched all cars");
     res.json(cars);
   } catch (error) {
+    logger.error("Error fetching cars:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -30,9 +37,14 @@ exports.getCars = async (req, res) => {
 exports.getCarById = async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
-    if (!car) return res.status(404).json({ message: "Car not found" });
+    if (!car) {
+      logger.warn(`Car with ID ${req.params.id} not found`);
+      return res.status(404).json({ message: "Car not found" });
+    }
+    logger.info(`Fetched car with ID ${req.params.id}`);
     res.json(car);
   } catch (error) {
+    logger.error("Error fetching car by ID:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -43,9 +55,14 @@ exports.updateCar = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    if (!car) return res.status(404).json({ message: "Car not found" });
+    if (!car) {
+      logger.warn(`Car with ID ${req.params.id} not found`);
+      return res.status(404).json({ message: "Car not found" });
+    }
+    logger.info(`Updated car with ID ${req.params.id}`);
     res.json(car);
   } catch (error) {
+    logger.error("Error updating car:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -53,9 +70,14 @@ exports.updateCar = async (req, res) => {
 exports.deleteCar = async (req, res) => {
   try {
     const car = await Car.findByIdAndDelete(req.params.id);
-    if (!car) return res.status(404).json({ message: "Car not found" });
+    if (!car) {
+      logger.warn(`Car with ID ${req.params.id} not found`);
+      return res.status(404).json({ message: "Car not found" });
+    }
+    logger.info(`Deleted car with ID ${req.params.id}`);
     res.json({ message: "Car deleted" });
   } catch (error) {
+    logger.error("Error deleting car:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
