@@ -1,30 +1,29 @@
+// server.js
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const connectDB = require("./config/database");
+const logger = require("./logger");  // Import the logger
 
 mongoose.set("strictQuery", true);
 
 const app = express();
 
-
 app.use(express.json());
 
 // Log when connecting to the database
-console.log("Connecting to MongoDB...");
+logger.info("Connecting to MongoDB...");
 connectDB()
   .then(() => {
-    console.log("MongoDB connected successfully.");
+    logger.info("MongoDB connected successfully.");
   })
   .catch(error => {
-    console.error("MongoDB connection error:", error);
+    logger.error("MongoDB connection error:", error);
   });
 
+// Log incoming requests
 app.use((req, res, next) => {
-  // Log each incoming request with the method and URL
-  console.log(
-    `[${new Date().toISOString()}] ${req.method} request to ${req.url}`
-  );
+  logger.debug(`[${new Date().toISOString()}] ${req.method} request to ${req.url}`);
   next();
 });
 
@@ -32,7 +31,7 @@ app.use((req, res, next) => {
 app.use(
   "/api/cars",
   (req, res, next) => {
-    console.log("Request received on /api/cars route with data:", req.body);
+    logger.debug("Request received on /api/cars route with data:", req.body);
     next();
   },
   require("./routes/carRoutes")
@@ -40,22 +39,21 @@ app.use(
 
 // Error handling with logging
 app.use((err, req, res, next) => {
-  console.error("Error encountered:", err.stack);
+  logger.error("Error encountered:", err.stack);
   res.status(500).send("Something went wrong!");
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  logger.info(`Server running on http://localhost:${PORT}`);
 });
 
 app.use(express.static("./public"));
-
 const path = require("path");
 
 // Serve the car_sensors_api_tester.html file
 app.use(express.static(path.join(__dirname, "./public")));
 
 app.get("/tester", (req, res) => {
-    res.sendFile(path.join(__dirname, "./public", "car_sensors_api_tester.html"));
+  res.sendFile(path.join(__dirname, "./public", "car_sensors_api_tester.html"));
 });
