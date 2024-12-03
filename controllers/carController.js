@@ -1,7 +1,7 @@
 // CarController.js
 const Car = require("../models/Car");
 const { validationResult } = require("express-validator");
-const logger = require('../config/logger');  // Correct because carController.js is inside the controllers folder
+const logger = require("../config/logger");  // Correct because carController.js is inside the controllers folder
 
 exports.createCar = async (req, res) => {
   const errors = validationResult(req);
