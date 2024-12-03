@@ -9,7 +9,13 @@ export default [
     languageOptions: {
       sourceType: "module",
       ecmaVersion: "latest",
-      globals: globals.node, // Set Node.js globals
+      globals: {
+        ...globals.node,  // Set Node.js globals
+        jest: "readonly",  // Add Jest globals
+        describe: "readonly", // Add Jest globals
+        it: "readonly",      // Add Jest globals
+        expect: "readonly",  // Add Jest globals
+      },
     },
     rules: {
       "no-unused-vars": "error", // Change from 'warn' to 'error' so ESLint can fix it

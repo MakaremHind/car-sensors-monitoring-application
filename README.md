@@ -187,9 +187,10 @@ This project uses **Husky** and **lint-staged** to automatically run **ESLint** 
    ```
 3. husky init (recommended)
 The init command simplifies setting up husky in a project. It creates a `pre-commit` script in `.husky/` and updates the prepare script in `package.json`. Modifications can be made later to suit your workflow.
-```
-npx husky init
-```
+
+   ```bash
+   npx husky init
+   ```
 
 4. Add this code to pre-commit hook to run lint-staged:
 
