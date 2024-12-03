@@ -185,10 +185,16 @@ This project uses **Husky** and **lint-staged** to automatically run **ESLint** 
    ```bash
    npx husky install
    ```
-3. Add a pre-commit hook to run lint-staged:
+3. husky init (recommended)
+The init command simplifies setting up husky in a project. It creates a `pre-commit` script in `.husky/` and updates the prepare script in `package.json`. Modifications can be made later to suit your workflow.
+```
+npx husky init
+```
+
+4. Add this code to pre-commit hook to run lint-staged:
 
    ```bash
-   npx husky add .husky/pre-commit "npx lint-staged"
+   npx lint-staged
    ```
 
 ### Link to Husky Configuration:
@@ -220,10 +226,11 @@ View the lint-staged config in `package.json`.
 ## 4. Testing the Setup
 Modify a .js file (e.g., add an unused variable).
 
-### Stage the file:
+### **Stage* the file:
 ```bash
 git add .
 ``` 
+*Note: Sometimes, even after adding a file to Git, it may not be staged. Make sure to stage the file before committing.*
 ### Commit the changes:
 ```bash
 git commit -m "Test commit with ESLint pre-commit hook"
