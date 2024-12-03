@@ -1,6 +1,6 @@
 # Car Sensors Monitoring App
 
-This Node.js application is designed to monitor car sensor data. It uses **Express.js** for the server, **Mongoose** for MongoDB integration, **dotenv** for environment variable management, and **ESLint** and **Prettier** for code quality and formatting.
+This Node.js application is designed to monitor car sensor data. It offers a robust backend using **Express.js** for handling HTTP requests, **Mongoose** for MongoDB integration, and **dotenv** for managing environment variables. The project emphasizes high code quality and maintainability with **ESLint** and **Prettier** for code analysis and formatting, **Husky** and **lint-staged** for pre-commit hooks, and comprehensive unit testing with **Jest** and **Supertest**. Additionally, it includes a logging mechanism with **Winston**, providing detailed insights into application activity and errors.
 
 ## Table of Contents
 
@@ -9,6 +9,8 @@ This Node.js application is designed to monitor car sensor data. It uses **Expre
 - [Setup Instructions](#setup-instructions)
 - [Static Code Analysis with ESLint & Code Formatting with Prettier](#static-code-analysis-with-eslint--code-formatting-with-prettier)
 - [Automating Static Code Analysis with Pre-commit Hooks](#automating-static-code-analysis-with-pre-commit-hooks)
+- [Unit Testing with Jest](#unit-testing-with-jest)
+- [Logger Setup with Winston](#logger-setup-with-winston)
 - [Packaging with `pkg`](#packaging-with-pkg)
 - [Running the Packaged Executable](#running-the-packaged-executable)
 - [Environment Variables](#environment-variables)
@@ -25,6 +27,10 @@ This Node.js application is designed to monitor car sensor data. It uses **Expre
 - [MongoDB](https://www.mongodb.com/try/download/community) (for database management)
 - [pkg](https://www.npmjs.com/package/pkg) (for creating standalone executables)
 - [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) (for linting and code formatting)
+- [Husky](https://typicode.github.io/husky) and [lint-staged](https://github.com/okonet/lint-staged) (for automating static code analysis with pre-commit hooks)
+- [Jest](https://jestjs.io/) and [Supertest](https://github.com/ladjs/supertest) (for unit testing and HTTP request testing)
+- [Winston](https://github.com/winstonjs/winston) (for logging application activity and errors)
+
 
 ---
 
@@ -37,6 +43,9 @@ This project relies on the following main dependencies:
 - **dotenv**: For loading environment variables from a `.env` file.
 - **express-validator**: For validating API request inputs.
 - **ESLint** and **Prettier**: For code linting and formatting to maintain consistent code quality.
+- **Winston**: For logging.
+- **Jest**: For unit testing.
+- **Supertest**: For HTTP assertions and testing routes.
 
 you will have to install these dependencies.
 
@@ -74,13 +83,12 @@ MONGODB_URI=mongodb://localhost:27017/carsensors
 To start the server in development mode, use (on your Command Prompt terminal):
 
 ```cmd
-npm start
+npm run dev
 ```
 
 Your server should now be running on `http://localhost:3000`.
 
 ---
-
 ## Static Code Analysis with ESLint & Code Formatting with Prettier
 
 This project uses **ESLint** for static code analysis to enforce coding standards and identify issues in the codebase, such as unused variables and potential bugs. Additionally, **Prettier** is used for code formatting to ensure consistent style across the codebase.
@@ -190,7 +198,7 @@ View the pre-commit hook in `.husky/pre-commit`.
 Lint-staged runs ESLint on only staged files, improving performance.
 
 Steps:
-1. Install lint-staged:
+1. Install Husky and lint-staged:
 
    ```bash
    npm install lint-staged --save-dev
@@ -228,7 +236,36 @@ If you've pushed commits and need to rewrite history (e.g., after amending commi
 git push --force
 ```
 ---
+## Unit Testing with Jest
+This project includes unit tests using Jest and Supertest to ensure the correctness of the application logic. The tests focus on CRUD operations for car data and validation.
 
+### Running Tests
+To run the unit tests for the application, use:
+
+```bash
+npm run test
+```
+
+The tests are located in the __tests__/ folder and include coverage for creating, reading, updating, and deleting car data.
+
+---
+## Logger Setup with Winston
+This application uses **Winston** for logging purposes, which helps in tracking application activities, errors, and other logs at different levels (`info`, `warn`, `error`).
+
+### Key Features of the Logger
+- **info**: Logs general operational information (e.g., car creation, fetching data).
+- **warn**: Logs warnings for situations like missing data or incorrect inputs.
+- **error**: Logs errors such as failed database operations.
+
+### Example Logs
+```bash
+info: Car created: Tesla Model 3 (2022)
+warn: Car with ID 607f1f77bcf86cd799439011 not found
+error: Error fetching car by ID: [Error details]
+```
+The logger configuration is located in the file: `config/logger.js`.
+
+---
 ## Packaging with `pkg`
 
 You can package the application as a standalone executable using **`pkg`**. This is useful for distribution or deployment where `Node.js` doesn’t need to be installed.
