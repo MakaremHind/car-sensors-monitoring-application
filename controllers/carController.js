@@ -10,7 +10,7 @@ exports.createCar = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { model, year, sensors } = req.body;
+  const { model, year, sensors } = req.body; 
 
   try {
     const car = new Car({ model, year, sensors });
