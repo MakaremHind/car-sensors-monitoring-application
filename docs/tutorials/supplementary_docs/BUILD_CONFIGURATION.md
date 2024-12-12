@@ -23,3 +23,5 @@ Key Configuration Details
 - `Rules`: Warns on unused variables, Enforces double quotes and semicolons, Allows console statements.
 
 ---
+
+[<-Back to HOME PAGE](../tutorial.md)
