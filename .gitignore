@@ -21,3 +21,6 @@ package-lock.json
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
+
+# Ignore documentation folder
+docs/documentation_files
