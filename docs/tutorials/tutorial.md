@@ -5,13 +5,13 @@ Index
 
 ### Getting started
 
-- [Quick Start](supplementary_docs\Quick_Start.md)  
+- [Quick Start](supplementary_docs/Quick_Start.md)  
   **A quick guide** to get started with the Car Sensors Monitoring App, including essential steps to set up and run the application.
 
-- [Requirements](supplementary_docs\Requirements.md)  
+- [Requirements](supplementary_docs/Requirements.md)  
   **Understand the requirements** for running the project, including Node.js, MongoDB, and other tools needed.
 
-- [Dependencies](supplementary_docs\Dependencies.md)  
+- [Dependencies](supplementary_docs/Dependencies.md)  
   **Overview of dependencies** used in the project like Express, Mongoose, Winston, and more, with their purposes.
 
 ### Configuration and Setup
