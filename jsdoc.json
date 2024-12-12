@@ -1,0 +1,11 @@
+{
+    "source": {
+      "include": ["controllers", "models", "routes"],
+      "exclude": ["node_modules"]
+    },
+    "opts": {
+      "destination": "./docs/documentation_files", 
+      "recurse": true
+    }
+  }
+  

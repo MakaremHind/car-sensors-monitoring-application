@@ -1,8 +1,13 @@
-// CarController.js
 const Car = require("../models/Car");
 const { validationResult } = require("express-validator");
-const logger = require("../config/logger");  // Correct because carController.js is inside the controllers folder
+const logger = require("../config/logger");
 
+/**
+ * Create a new car.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
 exports.createCar = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -10,7 +15,7 @@ exports.createCar = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { model, year, sensors } = req.body; 
+  const { model, year, sensors } = req.body;
 
   try {
     const car = new Car({ model, year, sensors });
@@ -23,6 +28,12 @@ exports.createCar = async (req, res) => {
   }
 };
 
+/**
+ * Get all cars.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
 exports.getCars = async (req, res) => {
   try {
     const cars = await Car.find();
@@ -34,6 +45,12 @@ exports.getCars = async (req, res) => {
   }
 };
 
+/**
+ * Get a car by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
 exports.getCarById = async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
@@ -49,6 +66,12 @@ exports.getCarById = async (req, res) => {
   }
 };
 
+/**
+ * Update a car by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
 exports.updateCar = async (req, res) => {
   try {
     const car = await Car.findByIdAndUpdate(req.params.id, req.body, {
@@ -67,6 +90,12 @@ exports.updateCar = async (req, res) => {
   }
 };
 
+/**
+ * Delete a car by ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
 exports.deleteCar = async (req, res) => {
   try {
     const car = await Car.findByIdAndDelete(req.params.id);
