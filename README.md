@@ -15,12 +15,13 @@ This Node.js application is designed to monitor car sensor data. It offers a rob
 
 
 ## Additional Documentation
-- [Static Code Analysis with ESLint & Code Formatting with Prettier](docs/CODE_ANALYSIS_AND_FORMATTING.md)
-- [Automating Static Code Analysis with Pre-commit Hooks](docs/PRE_COMMIT_HOOKS.md)
-- [Unit Testing with Jest](docs/UNIT_TESTING.md)
-- [Logger Setup with Winston](docs/LOGGER_SETUP.md)
-- [Build tool-specific configuration files](docs/BUILD_CONFIGURATION.md)
-- [Versioning](docs/VERSIONING_GUIDE.md)
+- [Static Code Analysis with ESLint & Code Formatting with Prettier](docs/How_to_guides/supplementary_docs/CODE_ANALYSIS_AND_FORMATTING.md)
+- [Automating Static Code Analysis with Pre-commit Hooks](docs/How_to_guides/supplementary_docs/PRE_COMMIT_HOOKS.md)
+- [Unit Testing with Jest](docs/How_to_guides/supplementary_docs/UNIT_TESTING.md)
+- [Logger Setup with Winston](docs/How_to_guides/supplementary_docs/LOGGER_SETUP.md)
+- [Build tool-specific configuration files](docs/How_to_guides/supplementary_docs/BUILD_CONFIGURATION.md)
+- [Generate a Documentation](docs/How_to_guides/supplementary_docs/JSDOC_GUIDE.md)
+- [Versioning](docs/How_to_guides/supplementary_docs/VERSIONING_GUIDE.md)
 
 ---
 ## Requirements
@@ -32,6 +33,7 @@ This Node.js application is designed to monitor car sensor data. It offers a rob
 - [Husky](https://typicode.github.io/husky) and [lint-staged](https://github.com/okonet/lint-staged) (for automating static code analysis with pre-commit hooks)
 - [Jest](https://jestjs.io/) and [Supertest](https://github.com/ladjs/supertest) (for unit testing and HTTP request testing)
 - [Winston](https://github.com/winstonjs/winston) (for logging application activity and errors)
+- [jsdoc](for generating a documentation)
 
 
 ---
@@ -47,6 +49,7 @@ This project relies on the following main dependencies:
 - **Winston**: For logging.
 - **Jest**: For unit testing.
 - **Supertest**: For HTTP assertions and testing routes.
+- **jsdoc**: For generate a documentation for project codes.
 
 you will have to install these dependencies.
 
