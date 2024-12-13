@@ -1,4 +1,4 @@
-@use Car Sensors Monitoring App Documentation
+@use Car Sensors Monitoring App
 
 Index
 ---
@@ -64,4 +64,4 @@ Index
 4. **Place `.env` File**: Ensure `.env` is in the same directory as the executable.
 5. **Run the Executable**: Execute the app using the command appropriate for your OS.
 
-This setup ensures a streamlined process for both development and deployment of the Car Sensors Monitoring App.
+These guides ensures a streamlined process for both development and deployment of the Car Sensors Monitoring App.
