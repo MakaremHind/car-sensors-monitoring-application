@@ -12,4 +12,4 @@ Each action's response will be displayed on the page in a dedicated response sec
 
 ---
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)

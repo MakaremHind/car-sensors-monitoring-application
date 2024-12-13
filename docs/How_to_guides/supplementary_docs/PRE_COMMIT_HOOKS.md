@@ -76,4 +76,4 @@ If you've pushed commits and need to rewrite history (e.g., after amending commi
 git push --force
 ```
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)

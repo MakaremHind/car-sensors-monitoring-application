@@ -52,4 +52,4 @@ The application will start, reading configuration from the `.env` file.
 
 ---
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)

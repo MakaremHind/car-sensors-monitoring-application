@@ -37,4 +37,4 @@ Your server should now be running on `http://localhost:3000`.
 
 ---
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)

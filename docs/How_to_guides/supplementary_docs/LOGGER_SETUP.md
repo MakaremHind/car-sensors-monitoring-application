@@ -16,4 +16,4 @@ The logger configuration is located in the file: `config/logger.js`.
 
 ---
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)

@@ -16,4 +16,4 @@ you will have to install these dependencies.
 
 ---
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)

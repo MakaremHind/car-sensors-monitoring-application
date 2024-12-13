@@ -12,4 +12,4 @@ The tests are located in the __tests__/ folder and include coverage for creating
 
 ---
 
-[<-Back to HOME PAGE](../tutorial.md)
+[<-Back to HOME PAGE](../How_to_guides.md)
