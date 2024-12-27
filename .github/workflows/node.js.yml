@@ -8,11 +8,11 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest # Switch to Linux runner for easier setup
+    runs-on: ubuntu-latest
 
     services:
       mongodb:
-        image: mongo:latest # Use latest MongoDB image
+        image: mongo:latest
         ports:
           - 27017:27017
         options: >-
@@ -40,11 +40,12 @@ jobs:
 
     - name: Run Tests with Coverage
       env:
-        MONGODB_URI: mongodb://localhost:27017/test # Add environment variable for MongoDB URI
+        MONGODB_URI: mongodb://localhost:27017/test
       run: npm test
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-report
+        # Make artifact name unique for each version
+        name: coverage-report-${{ matrix.node-version }}
         path: coverage/lcov-report/
