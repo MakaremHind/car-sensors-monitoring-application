@@ -8,7 +8,8 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Change the runner to Windows for PowerShell
+    runs-on: windows-latest
 
     strategy:
       matrix:
@@ -25,10 +26,16 @@ jobs:
         cache: 'npm'
 
     - name: Install Dependencies
-      run: npm install
+      # Use PowerShell command
+      run: |
+        npm install
+      shell: pwsh # Specify PowerShell as the shell
 
     - name: Run Tests with Coverage
-      run: npm test -- --coverage
+      # Use PowerShell command for running tests
+      run: |
+        npm test
+      shell: pwsh
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
