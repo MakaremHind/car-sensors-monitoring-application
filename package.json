@@ -5,9 +5,9 @@
   "main": "server.js",
   "bin": "server.js",
   "scripts": {
-    "start": "node server.js",
+     "start": "node start.js",
     "dev": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles",
     "lint": "eslint .",
     "format": "prettier --write .",
     "prepare": "husky"
