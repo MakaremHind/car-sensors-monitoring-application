@@ -11,15 +11,17 @@ jobs:
     runs-on: ubuntu-latest # Switch to Linux runner for easier setup
 
     services:
-      mongodb: # Add MongoDB service
-        image: mongo:4.4
+      mongodb:
+        image: mongo:latest # Use latest MongoDB image
         ports:
           - 27017:27017
         options: >-
-          --health-cmd "echo 'db.runCommand({ ping: 1 })' | mongosh localhost:27017/test --quiet"
+          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        volumes:
+          - mongodb_data:/data/db
 
     strategy:
       matrix:
@@ -48,3 +50,6 @@ jobs:
       with:
         name: coverage-report
         path: coverage/lcov-report/
+
+volumes:
+  mongodb_data:
