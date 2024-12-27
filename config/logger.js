@@ -1,8 +1,8 @@
 // logger.js
-const winston = require('winston');
+const winston = require("winston");
 
 const logger = winston.createLogger({
-  level: 'debug',  // Default log level is debug, can be changed based on the environment
+  level: "debug",  // Default log level is debug, can be changed based on the environment
   format: winston.format.combine(
     winston.format.colorize(),  // Add colors for logs in the console
     winston.format.timestamp(), // Add timestamp for each log

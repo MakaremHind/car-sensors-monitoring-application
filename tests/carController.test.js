@@ -1,13 +1,18 @@
 /* eslint-env jest */
-// __tests__/carController.test.js
 require("dotenv").config({ path: ".env.test" }); // Load test environment variables
 const request = require("supertest");
 const mongoose = require("mongoose");
 const app = require("../server"); // Use app instance
 const Car = require("../models/Car");
 
+// Database setup with error handling for tests
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGODB_URI);
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+  } catch (err) {
+    console.error("Test Database Connection Failed", err);
+    process.exit(1); // Ensure process exits gracefully if DB connection fails
+  }
 });
 
 afterAll(async () => {
@@ -17,6 +22,7 @@ afterAll(async () => {
 describe("Car Controller Tests", () => {
   let carId;
 
+  // Setup test data before each test
   beforeEach(async () => {
     const car = new Car({
       model: "Tesla Model 3",
@@ -30,6 +36,7 @@ describe("Car Controller Tests", () => {
     carId = savedCar._id;
   });
 
+  // Cleanup test data after each test
   afterEach(async () => {
     await Car.deleteMany();
   });
@@ -47,20 +54,21 @@ describe("Car Controller Tests", () => {
     expect(response.body.model).toBe("Tesla Model X");
   });
 
-  // Test getting all cars
+  // Test fetching all cars
   it("should fetch all cars", async () => {
     const response = await request(app).get("/api/cars");
     expect(response.status).toBe(200);
     expect(response.body.length).toBeGreaterThan(0);
   });
 
-  // Test getting a car by ID
+  // Test fetching a car by ID
   it("should fetch a car by ID", async () => {
     const response = await request(app).get(`/api/cars/${carId}`);
     expect(response.status).toBe(200);
     expect(response.body._id).toBe(carId.toString());
   });
 
+  // Test 404 for non-existent car by ID
   it("should return 404 if car is not found by ID", async () => {
     const response = await request(app).get("/api/cars/60d21b9667d0d8992e610c85");
     expect(response.status).toBe(404);
@@ -74,6 +82,7 @@ describe("Car Controller Tests", () => {
     expect(response.body.model).toBe("Tesla Model S");
   });
 
+  // Test 404 for updating a non-existent car
   it("should return 404 if car is not found for update", async () => {
     const updatedCarData = { model: "Unknown Model", year: 2024 };
     const response = await request(app).put("/api/cars/60d21b9667d0d8992e610c85").send(updatedCarData);
@@ -86,6 +95,7 @@ describe("Car Controller Tests", () => {
     expect(response.status).toBe(200);
   });
 
+  // Test 404 for deleting a non-existent car
   it("should return 404 if car is not found for delete", async () => {
     const response = await request(app).delete("/api/cars/60d21b9667d0d8992e610c85");
     expect(response.status).toBe(404);
