@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1735330134091" clover="3.2.0">
-  <project timestamp="1735330134092" name="All files">
+<coverage generated="1735335559413" clover="3.2.0">
+  <project timestamp="1735335559413" name="All files">
     <metrics statements="121" coveredstatements="104" conditionals="8" coveredconditionals="7" methods="20" coveredmethods="18" elements="149" coveredelements="129" complexity="0" loc="121" ncloc="121" packages="5" files="6" classes="6"/>
     <package name="car-sensors-monitoring-appliction">
       <metrics statements="26" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="4"/>
