@@ -20,8 +20,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        volumes:
-          - mongodb_data:/data/db
 
     strategy:
       matrix:
@@ -50,6 +48,3 @@ jobs:
       with:
         name: coverage-report
         path: coverage/lcov-report/
-
-volumes:
-  mongodb_data:
