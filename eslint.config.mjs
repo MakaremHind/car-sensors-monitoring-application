@@ -15,10 +15,14 @@ export default [
         describe: "readonly", // Add Jest globals
         it: "readonly",      // Add Jest globals
         expect: "readonly",  // Add Jest globals
+        beforeAll: "readonly",  // Add Jest hooks
+        afterAll: "readonly",   // Add Jest hooks
+        beforeEach: "readonly", // Add Jest hooks
+        afterEach: "readonly"   // Add Jest hooks
       },
     },
     rules: {
-      "no-unused-vars": "error", // Change from 'warn' to 'error' so ESLint can fix it
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }], // Allow unused args starting with '_'
       quotes: ["error", "double"], // Enforce double quotes
       semi: ["error", "always"], // Enforce semicolons
       "no-console": "off", // Allow console logs (useful for Node.js)
