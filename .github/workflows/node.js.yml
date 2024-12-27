@@ -8,8 +8,18 @@ on:
 
 jobs:
   test:
-    # Change the runner to Windows for PowerShell
-    runs-on: windows-latest
+    runs-on: ubuntu-latest # Switch to Linux runner for easier setup
+
+    services:
+      mongodb: # Add MongoDB service
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "echo 'db.runCommand({ ping: 1 })' | mongosh localhost:27017/test --quiet"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     strategy:
       matrix:
@@ -26,16 +36,12 @@ jobs:
         cache: 'npm'
 
     - name: Install Dependencies
-      # Use PowerShell command
-      run: |
-        npm install
-      shell: pwsh # Specify PowerShell as the shell
+      run: npm install
 
     - name: Run Tests with Coverage
-      # Use PowerShell command for running tests
-      run: |
-        npm test
-      shell: pwsh
+      env:
+        MONGODB_URI: mongodb://localhost:27017/test # Add environment variable for MongoDB URI
+      run: npm test
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4

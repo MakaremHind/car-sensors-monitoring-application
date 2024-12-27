@@ -4,7 +4,7 @@ const request = require("supertest");
 const mongoose = require("mongoose");
 const app = require("../server"); // Use app instance
 const Car = require("../models/Car");
-
+jest.setTimeout(30000); // Set 30 seconds timeout for tests
 // Database setup with error handling for tests
 beforeAll(async () => {
   try {
