@@ -110,6 +110,7 @@ jobs:
           -Dsonar.sources=.
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+          -Dsonar.exclusions=coverage/**,**/*.html
 
     # Step 9: Lint Code (ESLint)
     - name: Run ESLint for Code Style
