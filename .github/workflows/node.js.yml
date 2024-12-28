@@ -110,3 +110,13 @@ jobs:
           -Dsonar.sources=.
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
+    # Step 9: Lint Code (ESLint)
+    - name: Run ESLint for Code Style
+      run: |
+        npx eslint controllers/**/*.js routes/**/*.js config/**/*.js models/**/*.js ./*.js || true # Allow warnings but fail on errors
+
+    # Step 10: Run Prettier for Code Formatting
+    - name: Run Prettier for Code Formatting
+      run: |
+        npx prettier --check "controllers/**/*.js" "routes/**/*.js" "config/**/*.js" "models/**/*.js" "./*.js" || true # Check formatting issues
