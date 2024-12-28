@@ -1,461 +1,193 @@
-# Gitleaks
+# Car Sensors Monitoring App
 
-```
-┌─○───┐
-│ │╲  │
-│ │ ○ │
-│ ○ ░ │
-└─░───┘
-```
-
-<p align="left">
-  <p align="left">
-	  <a href="https://github.com/gitleaks/gitleaks/actions/workflows/test.yml">
-		  <img alt="Github Test" src="https://github.com/gitleaks/gitleaks/actions/workflows/test.yml/badge.svg">
-	  </a>
-	  <a href="https://hub.docker.com/r/zricethezav/gitleaks">
-		  <img src="https://img.shields.io/docker/pulls/zricethezav/gitleaks.svg" />
-	  </a>
-	  <a href="https://github.com/gitleaks/gitleaks-action">
-        	<img alt="gitleaks badge" src="https://img.shields.io/badge/protected%20by-gitleaks-blue">
-    	 </a>
-	  <a href="https://twitter.com/intent/follow?screen_name=zricethezav">
-		  <img src="https://img.shields.io/twitter/follow/zricethezav?label=Follow%20zricethezav&style=social&color=blue" alt="Follow @zricethezav" />
-	  </a>
-  </p>
-</p>
-
-### Join our Discord! [![Discord](https://img.shields.io/discord/1102689410522284044.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/8Hzbrnkr7E)
-
-Gitleaks is a tool for **detecting** secrets like passwords, API keys, and tokens in git repos, files, and whatever else you wanna throw at it via `stdin`.
-
-```
-➜  ~/code(master) gitleaks git -v
-
-    ○
-    │╲
-    │ ○
-    ○ ░
-    ░    gitleaks
+This Node.js application is designed to monitor car sensor data. It offers a robust backend using **Express.js** for handling HTTP requests, **Mongoose** for MongoDB integration, and **dotenv** for managing environment variables. The project emphasizes high code quality and maintainability with **ESLint** and **Prettier** for code analysis and formatting, **Husky** and **lint-staged** for pre-commit hooks, and comprehensive unit testing with **Jest** and **Supertest**. Additionally, it includes a logging mechanism with **Winston**, providing detailed insights into application activity and errors.
 
 
-Finding:     "export BUNDLE_ENTERPRISE__CONTRIBSYS__COM=cafebabe:deadbeef",
-Secret:      cafebabe:deadbeef
-RuleID:      sidekiq-secret
-Entropy:     2.609850
-File:        cmd/generate/config/rules/sidekiq.go
-Line:        23
-Commit:      cd5226711335c68be1e720b318b7bc3135a30eb2
-Author:      John
-Email:       john@users.noreply.github.com
-Date:        2022-08-03T12:31:40Z
-Fingerprint: cd5226711335c68be1e720b318b7bc3135a30eb2:cmd/generate/config/rules/sidekiq.go:sidekiq-secret:23
-```
+## Table of Contents 
 
-## Getting Started
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Setup Instructions](#setup-instructions)
+4. [How to Use](#how-to-use)
+5. [How to Contribute](#contributing-to-the-project)
+6. [License](#license)
+7. [Contact](#contact)
 
-Gitleaks can be installed using Homebrew, Docker, or Go. Gitleaks is also available in binary form for many popular platforms and OS types on the [releases page](https://github.com/gitleaks/gitleaks/releases). In addition, Gitleaks can be implemented as a pre-commit hook directly in your repo or as a GitHub action using [Gitleaks-Action](https://github.com/gitleaks/gitleaks-action).
 
-### Installing
+## Additional Documentation
+- [Static Code Analysis with ESLint & Code Formatting with Prettier](docs/How_to_guides/supplementary_docs/CODE_ANALYSIS_AND_FORMATTING.md)
+- [Automating Static Code Analysis with Pre-commit Hooks](docs/How_to_guides/supplementary_docs/PRE_COMMIT_HOOKS.md)
+- [Unit Testing with Jest](docs/How_to_guides/supplementary_docs/UNIT_TESTING.md)
+- [Logger Setup with Winston](docs/How_to_guides/supplementary_docs/LOGGER_SETUP.md)
+- [Build tool-specific configuration files](docs/How_to_guides/supplementary_docs/BUILD_CONFIGURATION.md)
+- [Generate a Documentation](docs/How_to_guides/supplementary_docs/JSDOC_GUIDE.md)
+- [Versioning](docs/How_to_guides/supplementary_docs/VERSIONING_GUIDE.md)
+
+---
+## Requirements
+
+- [Node.js](https://nodejs.org/) (for development)
+- [MongoDB](https://www.mongodb.com/try/download/community) (for database management)
+- [pkg](https://www.npmjs.com/package/pkg) (for creating standalone executables)
+- [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) (for linting and code formatting)
+- [Husky](https://typicode.github.io/husky) and [lint-staged](https://github.com/okonet/lint-staged) (for automating static code analysis with pre-commit hooks)
+- [Jest](https://jestjs.io/) and [Supertest](https://github.com/ladjs/supertest) (for unit testing and HTTP request testing)
+- [Winston](https://github.com/winstonjs/winston) (for logging application activity and errors)
+- [jsdoc](for generating a documentation)
+
+
+---
+## Features
+
+This project relies on the following main dependencies:
+
+- **Express**: For building the web server and handling HTTP requests.
+- **Mongoose**: For MongoDB integration and schema management.
+- **dotenv**: For loading environment variables from a `.env` file.
+- **express-validator**: For validating API request inputs.
+- **ESLint** and **Prettier**: For code linting and formatting to maintain consistent code quality.
+- **Winston**: For logging.
+- **Jest**: For unit testing.
+- **Supertest**: For HTTP assertions and testing routes.
+- **jsdoc**: For generate a documentation for project codes.
+
+you will have to install these dependencies.
+
+---
+## Setup Instructions
+
+### Step 1: Clone the Repository
+
+Clone the repository to your local environment:
 
 ```bash
-# MacOS
-brew install gitleaks
+git clone https://github.com/MakaremHind/car-sensors-monitoring-app
+```
+---
+### Step 2: Install Dependencies
 
-# Docker (DockerHub)
-docker pull zricethezav/gitleaks:latest
-docker run -v ${path_to_host_folder_to_scan}:/path zricethezav/gitleaks:latest [COMMAND] [OPTIONS] [SOURCE_PATH]
+Install all required dependencies:
 
-# Docker (ghcr.io)
-docker pull ghcr.io/gitleaks/gitleaks:latest
-docker run -v ${path_to_host_folder_to_scan}:/path ghcr.io/gitleaks/gitleaks:latest [COMMAND] [OPTIONS] [SOURCE_PATH]
+```bash
+npm install
+```
+---
+### Step 3: Set Up Environment Variables
 
-# From Source (make sure `go` is installed)
-git clone https://github.com/gitleaks/gitleaks.git
-cd gitleaks
-make build
+Create a `.env` file in the root directory with the following content:
+
+```plaintext
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/carsensors
+```
+---
+### Step 4: Run the Server Locally
+
+To start the server in development mode, use (on your Command Prompt terminal):
+
+```cmd
+npm run dev
 ```
 
-### GitHub Action
+Your server should now be running on `http://localhost:3000`.
 
-Check out the official [Gitleaks GitHub Action](https://github.com/gitleaks/gitleaks-action)
+---
+### Step 5: Packaging with `pkg`
+You can package the application as a standalone executable using **`pkg`**. This is useful for distribution or deployment where `Node.js` doesn’t need to be installed.
 
-```
-name: gitleaks
-on: [pull_request, push, workflow_dispatch]
-jobs:
-  scan:
-    name: gitleaks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
-```
 
-### Pre-Commit
+   ### 5.1 Install `pkg`
 
-1. Install pre-commit from https://pre-commit.com/#install
-2. Create a `.pre-commit-config.yaml` file at the root of your repository with the following content:
+   Install `pkg` globally if you haven't already:
 
-   ```
-   repos:
-     - repo: https://github.com/gitleaks/gitleaks
-       rev: v8.19.0
-       hooks:
-         - id: gitleaks
+   ```bash
+   npm install -g pkg
    ```
 
-   for a [native execution of GitLeaks](https://github.com/gitleaks/gitleaks/releases) or use the [`gitleaks-docker` pre-commit ID](https://github.com/gitleaks/gitleaks/blob/master/.pre-commit-hooks.yaml) for executing GitLeaks using the [official Docker images](#docker)
+ >Download `pkg` from [npm](https://www.npmjs.com/package/pkg).
 
-3. Auto-update the config to the latest repos' versions by executing `pre-commit autoupdate`
-4. Install with `pre-commit install`
-5. Now you're all set!
+   ### 5.2 Build the Executable
 
-```
-➜ git commit -m "this commit contains a secret"
-Detect hardcoded secrets.................................................Failed
-```
+   To create the standalone executable:
 
-Note: to disable the gitleaks pre-commit hook you can prepend `SKIP=gitleaks` to the commit command
-and it will skip running gitleaks
+   ```bash
+   pkg .
+   ```
 
-```
-➜ SKIP=gitleaks git commit -m "skip gitleaks check"
-Detect hardcoded secrets................................................Skipped
-```
+This will generate executables for each target platform in the `dist` directory.
 
-## Usage
+---
+### Step 6: Running the Packaged Executable
 
-```
-Usage:
-  gitleaks [command]
+   ### 6.1 **Place `.env` File**: Make sure the `.env` file is in the same directory as the executable (e.g., in `dist`) to provide the necessary environment variables.
 
-Available Commands:
-  completion  generate the autocompletion script for the specified shell
-  dir         scan directories or files for secrets
-  git         scan git repositories for secrets
-  help        Help about any command
-  stdin       detect secrets from stdin
-  version     display gitleaks version
+   ```plaintext
+   dist/
+   ├── car-sensors-monitoring-app.exe   # Your packaged executable
+   └── .env                             # Your environment file
+   ```
 
-Flags:
-  -b, --baseline-path string          path to baseline with issues that can be ignored
-  -c, --config string                 config file path
-                                      order of precedence:
-                                      1. --config/-c
-                                      2. env var GITLEAKS_CONFIG
-                                      3. (target path)/.gitleaks.toml
-                                      If none of the three options are used, then gitleaks will use the default config
-      --enable-rule strings           only enable specific rules by id
-      --exit-code int                 exit code when leaks have been encountered (default 1)
-  -i, --gitleaks-ignore-path string   path to .gitleaksignore file or folder containing one (default ".")
-  -h, --help                          help for gitleaks
-      --ignore-gitleaks-allow         ignore gitleaks:allow comments
-  -l, --log-level string              log level (trace, debug, info, warn, error, fatal) (default "info")
-      --max-decode-depth int          allow recursive decoding up to this depth (default "0", no decoding is done)
-      --max-target-megabytes int      files larger than this will be skipped
-      --no-banner                     suppress banner
-      --no-color                      turn off color for verbose output
-      --redact uint[=100]             redact secrets from logs and stdout. To redact only parts of the secret just apply a percent value from 0..100. For example --redact=20 (default 100%)
-  -f, --report-format string          output format (json, csv, junit, sarif) (default "json")
-  -r, --report-path string            report file
-      --report-template string        template file used to generate the report (implies --report-format=template)
-  -v, --verbose                       show verbose output from scan
-      --version                       version for gitleaks
+   ### 6.2 **Run the Executable**:
 
-Use "gitleaks [command] --help" for more information about a command.
+   - **Windows**:
+
+     ```powershell
+     .\dist\car-sensors-monitoring-app.exe
+     ```
+
+   - **Linux/macOS**:
+     ```bash
+     ./dist/car-sensors-monitoring-app
+     ```
+
+The application will start, reading configuration from the `.env` file.
+
+---
+### step 7: Environment Variables
+
+The `.env` file should contain the following variables:
+
+- **`PORT`**: Port number for the server to listen on.
+- **`MONGODB_URI`**: MongoDB connection URI.
+
+Example `.env` file:
+
+```plaintext
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/carsensors
 ```
 
-### Commands
 
-⚠️ v8.19.0 introduced a change that deprecated `detect` and `protect`. Those commands are still available but
-are hidden in the `--help` menu. Take a look at this [gist](https://gist.github.com/zricethezav/b325bb93ebf41b9c0b0507acf12810d2) for easy command translations.
-If you find v8.19.0 broke an existing command (`detect`/`protect`), please open an issue.
+## How to Use
 
-There are three scanning modes: `git`, `dir`, and `stdin`.
+You can test the API endpoints using the included HTML file, accessible at `http://localhost:3000/tester`. The HTML tester provides forms for interacting with the following API functions:
 
-#### Git
-The `git` command lets you scan local git repos. Under the hood, gitleaks uses the `git log -p` command to scan patches.
-You can configure the behavior of `git log -p` with the `log-opts` option.
-For example, if you wanted to run gitleaks on a range of commits you could use the following
-command: `gitleaks git -v --log-opts="--all commitA..commitB" path_to_repo`. See the [git log](https://git-scm.com/docs/git-log) documentation for more information.
-If there is no target specified as a positional argument, then gitleaks will attempt to scan the current working directory as a git repo.
+- `Create Car Sensor Data`: Adds a new car model with specified year, sensor type, and sensor value.
+- `Retrieve All Car Sensor Data`: Fetches all stored car sensor data.
+- `Retrieve Car Sensor Data by ID`: Fetches car data by its unique ID.
+- `Update Car Sensor Data`: Updates the sensor value for an existing car by ID.
+- `Delete Car Sensor Data`: Deletes car data from the database by ID.
 
-#### Dir
-The `dir` (aliases include `files`, `directory`) command lets you scan directories and files. Example: `gitleaks dir -v path_to_directory_or_file`.
-If there is no target specified as a positional argument, then gitleaks will scan the current working directory.
-
-#### Stdin
-You can also stream data to gitleaks with the `stdin` command. Example: `cat some_file | gitleaks -v stdin`
-
-### Creating a baseline
-
-When scanning large repositories or repositories with a long history, it can be convenient to use a baseline. When using a baseline,
-gitleaks will ignore any old findings that are present in the baseline. A baseline can be any gitleaks report. To create a gitleaks report, run gitleaks with the `--report-path` parameter.
-
-```
-gitleaks git --report-path gitleaks-report.json # This will save the report in a file called gitleaks-report.json
-```
-
-Once as baseline is created it can be applied when running the detect command again:
-
-```
-gitleaks git --baseline-path gitleaks-report.json --report-path findings.json
-```
-
-After running the detect command with the --baseline-path parameter, report output (findings.json) will only contain new issues.
-
-## Pre-Commit hook
-
-You can run Gitleaks as a pre-commit hook by copying the example `pre-commit.py` script into
-your `.git/hooks/` directory.
-
-## Configuration
-
-Gitleaks offers a configuration format you can follow to write your own secret detection rules:
-
-```toml
-# Title for the gitleaks configuration file.
-title = "Gitleaks title"
-
-# Extend the base (this) configuration. When you extend a configuration
-# the base rules take precedence over the extended rules. I.e., if there are
-# duplicate rules in both the base configuration and the extended configuration
-# the base rules will override the extended rules.
-# Another thing to know with extending configurations is you can chain together
-# multiple configuration files to a depth of 2. Allowlist arrays are appended
-# and can contain duplicates.
-# useDefault and path can NOT be used at the same time. Choose one.
-[extend]
-# useDefault will extend the base configuration with the default gitleaks config:
-# https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
-useDefault = true
-# or you can supply a path to a configuration. Path is relative to where gitleaks
-# was invoked, not the location of the base config.
-path = "common_config.toml"
-
-# An array of tables that contain information that define instructions
-# on how to detect secrets
-[[rules]]
-
-# Unique identifier for this rule
-id = "awesome-rule-1"
-
-# Short human readable description of the rule.
-description = "awesome rule 1"
-
-# Golang regular expression used to detect secrets. Note Golang's regex engine
-# does not support lookaheads.
-regex = '''one-go-style-regex-for-this-rule'''
-
-# Int used to extract secret from regex match and used as the group that will have
-# its entropy checked if `entropy` is set.
-secretGroup = 3
-
-# Float representing the minimum shannon entropy a regex group must have to be considered a secret.
-entropy = 3.5
-
-# Golang regular expression used to match paths. This can be used as a standalone rule or it can be used
-# in conjunction with a valid `regex` entry.
-path = '''a-file-path-regex'''
-
-# Keywords are used for pre-regex check filtering. Rules that contain
-# keywords will perform a quick string compare check to make sure the
-# keyword(s) are in the content being scanned. Ideally these values should
-# either be part of the identiifer or unique strings specific to the rule's regex
-# (introduced in v8.6.0)
-keywords = [
-  "auth",
-  "password",
-  "token",
-]
-
-# Array of strings used for metadata and reporting purposes.
-tags = ["tag","another tag"]
-
-    # ⚠️ In v8.21.0 `[rules.allowlist]` was replaced with `[[rules.allowlists]]`.
-    # This change was backwards-compatible: instances of `[rules.allowlist]` still  work.
-    #
-    # You can define multiple allowlists for a rule to reduce false positives.
-    # A finding will be ignored if _ANY_ `[[rules.allowlists]]` matches.
-    [[rules.allowlists]]
-    description = "ignore commit A"
-    # When multiple criteria are defined the default condition is "OR".
-    # e.g., this can match on |commits| OR |paths| OR |stopwords|.
-    condition = "OR"
-    commits = [ "commit-A", "commit-B"]
-    paths = [
-      '''go\.mod''',
-      '''go\.sum'''
-    ]
-    # note: stopwords targets the extracted secret, not the entire regex match
-    # like 'regexes' does. (stopwords introduced in 8.8.0)
-    stopwords = [
-      '''client''',
-      '''endpoint''',
-    ]
-
-    [[rules.allowlists]]
-    # The "AND" condition can be used to make sure all criteria match.
-    # e.g., this matches if |regexes| AND |paths| are satisfied.
-    condition = "AND"
-    # note: |regexes| defaults to check the _Secret_ in the finding.
-    # Acceptable values for |regexTarget| are "secret" (default), "match", and "line".
-    regexTarget = "match"
-    regexes = [ '''(?i)parseur[il]''' ]
-    paths = [ '''package-lock\.json''' ]
-
-# You can extend a particular rule from the default config. e.g., gitlab-pat
-# if you have defined a custom token prefix on your GitLab instance
-[[rules]]
-id = "gitlab-pat"
-# all the other attributes from the default rule are inherited
-
-    [[rules.allowlists]]
-    regexTarget = "line"
-    regexes = [ '''MY-glpat-''' ]
-
-# This is a global allowlist which has a higher order of precedence than rule-specific allowlists.
-# If a commit listed in the `commits` field below is encountered then that commit will be skipped and no
-# secrets will be detected for said commit. The same logic applies for regexes and paths.
-[allowlist]
-description = "global allow list"
-commits = [ "commit-A", "commit-B", "commit-C"]
-paths = [
-  '''gitleaks\.toml''',
-  '''(.*?)(jpg|gif|doc)'''
-]
-
-# note: (global) regexTarget defaults to check the _Secret_ in the finding.
-# if regexTarget is not specified then _Secret_ will be used.
-# Acceptable values for regexTarget are "match" and "line"
-regexTarget = "match"
-regexes = [
-  '''219-09-9999''',
-  '''078-05-1120''',
-  '''(9[0-9]{2}|666)-\d{2}-\d{4}''',
-]
-# note: stopwords targets the extracted secret, not the entire regex match
-# like 'regexes' does. (stopwords introduced in 8.8.0)
-stopwords = [
-  '''client''',
-  '''endpoint''',
-]
-```
-
-Refer to the default [gitleaks config](https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml) for examples or follow the [contributing guidelines](https://github.com/gitleaks/gitleaks/blob/master/CONTRIBUTING.md) if you would like to contribute to the default configuration. Additionally, you can check out [this gitleaks blog post](https://blog.gitleaks.io/stop-leaking-secrets-configuration-2-3-aeed293b1fbf) which covers advanced configuration setups.
-
-### Additional Configuration
-
-#### gitleaks:allow
-
-If you are knowingly committing a test secret that gitleaks will catch you can add a `gitleaks:allow` comment to that line which will instruct gitleaks
-to ignore that secret. Ex:
-
-```
-class CustomClass:
-    discord_client_secret = '8dyfuiRyq=vVc3RRr_edRk-fK__JItpZ'  #gitleaks:allow
-
-```
-
-#### .gitleaksignore
-
-You can ignore specific findings by creating a `.gitleaksignore` file at the root of your repo. In release v8.10.0 Gitleaks added a `Fingerprint` value to the Gitleaks report. Each leak, or finding, has a Fingerprint that uniquely identifies a secret. Add this fingerprint to the `.gitleaksignore` file to ignore that specific secret. See Gitleaks' [.gitleaksignore](https://github.com/gitleaks/gitleaks/blob/master/.gitleaksignore) for an example. Note: this feature is experimental and is subject to change in the future.
-
-#### Decoding
-
-Sometimes secrets are encoded in a way that can make them difficult to find
-with just regex. Now you can tell gitleaks to automatically find and decode
-encoded text. The flag `--max-decode-depth` enables this feature (the default
-value "0" means the feature is disabled by default).
-
-Recursive decoding is supported since decoded text can also contain encoded
-text.  The flag `--max-decode-depth` sets the recursion limit. Recursion stops
-when there are no new segments of encoded text to decode, so setting a really
-high max depth doesn't mean it will make that many passes. It will only make as
-many as it needs to decode the text. Overall, decoding only minimally increases
-scan times.
-
-The findings for encoded text differ from normal findings in the following
-ways:
-
-- The location points the bounds of the encoded text
-  - If the rule matches outside the encoded text, the bounds are adjusted to
-    include that as well
-- The match and secret contain the decoded value
-- Two tags are added `decoded:<encoding>` and `decode-depth:<depth>`
-
-Currently supported encodings:
-
-- `base64` (both standard and base64url)
-
-#### Reporting
-
-Gitleaks has built-in support for several report formats: [`json`](https://github.com/gitleaks/gitleaks/blob/master/testdata/expected/report/json_simple.json), [`csv`](https://github.com/gitleaks/gitleaks/blob/master/testdata/expected/report/csv_simple.csv?plain=1), [`junit`](https://github.com/gitleaks/gitleaks/blob/master/testdata/expected/report/junit_simple.xml), and [`sarif`](https://github.com/gitleaks/gitleaks/blob/master/testdata/expected/report/sarif_simple.sarif).
-
-If none of these formats fit your need, you can create your own report format with a [Go `text/template` .tmpl file](https://www.digitalocean.com/community/tutorials/how-to-use-templates-in-go#step-4-writing-a-template) and the `--report-template` flag. The template can use [extended functionality from the `Masterminds/sprig` template library](https://masterminds.github.io/sprig/).
-
-For example, the following template provides a custom JSON output:
-```gotemplate
-# jsonextra.tmpl
-[{{ $lastFinding := (sub (len . ) 1) }}
-{{- range $i, $finding := . }}{{with $finding}}
-    {
-        "Description": {{ quote .Description }},
-        "StartLine": {{ .StartLine }},
-        "EndLine": {{ .EndLine }},
-        "StartColumn": {{ .StartColumn }},
-        "EndColumn": {{ .EndColumn }},
-        "Line": {{ quote .Line }},
-        "Match": {{ quote .Match }},
-        "Secret": {{ quote .Secret }},
-        "File": "{{ .File }}",
-        "SymlinkFile": {{ quote .SymlinkFile }},
-        "Commit": {{ quote .Commit }},
-        "Entropy": {{ .Entropy }},
-        "Author": {{ quote .Author }},
-        "Email": {{ quote .Email }},
-        "Date": {{ quote .Date }},
-        "Message": {{ quote .Message }},
-        "Tags": [{{ $lastTag := (sub (len .Tags ) 1) }}{{ range $j, $tag := .Tags }}{{ quote . }}{{ if ne $j $lastTag }},{{ end }}{{ end }}],
-        "RuleID": {{ quote .RuleID }},
-        "Fingerprint": {{ quote .Fingerprint }}
-    }{{ if ne $i $lastFinding }},{{ end }}
-{{- end}}{{ end }}
-]
-```
-
-Usage:
-```sh
-$ gitleaks dir ~/leaky-repo/ --report-path "report.json" --report-format template --report-template testdata/report/jsonextra.tmpl
-```
-
-## Sponsorships
-
-<p align="left">
-	<h3><a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">coderabbit.ai</h3>
-	  <a href="https://coderabbit.ai/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
-		  <img alt="CodeRabbit.ai Sponsorship" src="https://github.com/gitleaks/gitleaks/assets/15034943/76c30a85-887b-47ca-9956-17a8e55c6c41" width=200>
-	  </a>
-</p>
-<p align="left">
-	  <a href="https://www.tines.com/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
-		  <img alt="Tines Sponsorship" src="https://user-images.githubusercontent.com/15034943/146411864-4878f936-b4f7-49a0-b625-f9f40c704bfa.png" width=200>
-	  </a>
-  </p>
+Each action's response will be displayed on the page in a dedicated response section for easy debugging and API testing.
 
 
-## Exit Codes
+## Contributing to the Project
 
-You can always set the exit code when leaks are encountered with the --exit-code flag. Default exit codes below:
+We welcome contributions from developers and non-developers alike! See the [CONTRIBUTING.md](/CONTRIBUTING.md) file for details on how to get started.
 
-```
-0 - no leaks present
-1 - leaks or error encountered
-126 - unknown flag
-```
+### Key Points:
+
+- Follow our coding standards enforced by **ESLint** and **Prettier**.
+- Run all tests before submitting a pull request.
+- Check our [Code of Conduct](docs/CODE_OF_CONDUCT.md).
+
+
+## License
+This project is licensed under the **MIT License**. See the [LICENSE.md](/LICENSE.txt) file for full details.
+
+
+## Contact
+For questions or feedback, reach out to the project team:
+
+- **Email**: hind.makarem@example.com
+- **GitHub**: [Hind Makarem](https://github.com/MakaremHind/)
