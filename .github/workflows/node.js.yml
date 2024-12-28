@@ -8,18 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-        options: >-
-          --health-cmd "mongosh --eval 'db.runCommand({ping: 1})'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    runs-on: windows-latest
 
     strategy:
       matrix:
@@ -36,16 +25,33 @@ jobs:
         cache: 'npm'
 
     - name: Install Dependencies
-      run: npm install
+      run: |
+        npm install
+      shell: pwsh
 
     - name: Run Tests with Coverage
-      env:
-        MONGODB_URI: mongodb://localhost:27017/test
-      run: npm test
+      run: |
+        npm test
+      shell: pwsh
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
       with:
-        # Make artifact name unique for each version
-        name: coverage-report-${{ matrix.node-version }}
+        name: coverage-report
         path: coverage/lcov-report/
+
+    - name: Install Gitleaks
+      run: |
+        choco install gitleaks
+      shell: pwsh
+
+    - name: Run Gitleaks for Secrets Detection
+      run: |
+        gitleaks detect --source . --report-format sarif --report-path gitleaks-report.sarif
+      shell: pwsh
+
+    - name: Upload Gitleaks Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: gitleaks-report
+        path: gitleaks-report.sarif
