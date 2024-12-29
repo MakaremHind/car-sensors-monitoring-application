@@ -8,7 +8,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-
 permissions:
   contents: write
   packages: write
@@ -157,12 +156,12 @@ jobs:
         fi
         cat CHANGELOG.md
 
-    # Step 3: Upload Reports as Artifacts
+    # Step 3: Collect Artifacts for Release
     - name: Collect Artifacts for Release
       run: |
         mkdir -p release-artifacts
-        cp -r coverage/lcov-report/**/*.html release-artifacts/
-        cp -r gitleaks-*.sarif release-artifacts/
+        cp -r coverage/lcov-report/*.html release-artifacts/
+        cp -r gitleaks-*.sarif release-artifacts/ || true
 
     # Step 4: Create GitHub Release
     - name: Create GitHub Release
