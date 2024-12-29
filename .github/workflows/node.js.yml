@@ -162,7 +162,7 @@ jobs:
       with:
         path: release-artifacts
 
-    # Step 4: Collect Artifacts for Release
+    # Step 4: Collect Gitleaks Reports for Release
     - name: Collect Gitleaks Reports for Release
       run: |
         mkdir -p release-artifacts/gitleaks
