@@ -156,14 +156,19 @@ jobs:
         fi
         cat CHANGELOG.md
 
-    # Step 3: Collect Artifacts for Release
-    - name: Collect Artifacts for Release
-      run: |
-        mkdir -p release-artifacts
-        cp -r coverage/lcov-report/*.html release-artifacts/
-        cp -r gitleaks-*.sarif release-artifacts/ || true
+    # Step 3: Download Reports as Artifacts
+    - name: Download Coverage Reports
+      uses: actions/download-artifact@v4
+      with:
+        path: release-artifacts
 
-    # Step 4: Create GitHub Release
+    # Step 4: Collect Artifacts for Release
+    - name: Collect Gitleaks Reports for Release
+      run: |
+        mkdir -p release-artifacts/gitleaks
+        cp release-artifacts/gitleaks-report-*.sarif release-artifacts/gitleaks/ || true
+
+    # Step 5: Create GitHub Release
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
@@ -171,6 +176,6 @@ jobs:
         name: Release ${{ github.ref_name }}
         body_file: CHANGELOG.md
         token: ${{ secrets.GITHUB_TOKEN }}
-        artifacts: "release-artifacts/**/*" # Upload artifacts from release-artifacts folder
+        artifacts: "release-artifacts/**/*"
         generateReleaseNotes: true
         allowUpdates: true
