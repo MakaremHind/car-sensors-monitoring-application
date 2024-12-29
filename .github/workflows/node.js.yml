@@ -26,7 +26,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     strategy:
       matrix:
         node-version: [16.x, 18.x, 20.x] # Matrix testing
@@ -47,14 +46,12 @@ jobs:
     - name: Install Dependencies
       run: |
         npm install || true
-
     # Step 4: Run tests with coverage
     - name: Run Tests with Coverage
       env:
         MONGODB_URI: mongodb://localhost:27017/test
       run: |
         npm test || true
-
     # Step 5: Upload test coverage report
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
@@ -85,12 +82,10 @@ jobs:
         curl -sSL -o gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.16.1/gitleaks_8.16.1_linux_x64.tar.gz
         tar -xzf gitleaks.tar.gz
         sudo mv gitleaks /usr/local/bin/
-
     - name: Run Gitleaks for 16.x and 20.x
       if: matrix.node-version != '18.x'
       run: |
         gitleaks detect --source . --report-format sarif --report-path gitleaks-${{ matrix.node-version }}.sarif
-
     - name: Upload Gitleaks Report for 16.x and 20.x
       if: matrix.node-version != '18.x'
       uses: actions/upload-artifact@v4
@@ -102,7 +97,6 @@ jobs:
     - name: Check Vulnerabilities
       run: |
         npm audit --audit-level=moderate || true
-
     # Step 8: SonarCloud Analysis
     - name: SonarCloud Scan
       uses: SonarSource/sonarqube-scan-action@v4.1.0
@@ -116,17 +110,14 @@ jobs:
           -Dsonar.sources=.
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-
     # Step 9: Lint Code (ESLint)
     - name: Run ESLint for Code Style
       run: |
         npx eslint controllers/**/*.js routes/**/*.js config/**/*.js models/**/*.js ./*.js || true
-
     # Step 10: Prettier Code Formatting Check
     - name: Run Prettier for Code Formatting
       run: |
         npx prettier --check "controllers/**/*.js" "routes/**/*.js" "config/**/*.js" "models/**/*.js" "./*.js" || true
-
   release:
     runs-on: ubuntu-latest
     needs: test
@@ -155,7 +146,6 @@ jobs:
           git log $PREV_TAG..HEAD --pretty=format:"- %s" > CHANGELOG.md
         fi
         cat CHANGELOG.md
-
     # Step 3: Download Reports as Artifacts
     - name: Download Coverage Reports
       uses: actions/download-artifact@v4
@@ -167,7 +157,6 @@ jobs:
       run: |
         mkdir -p release-artifacts/gitleaks
         cp release-artifacts/gitleaks-report-*.sarif release-artifacts/gitleaks/ || true
-
     # Step 5: Create GitHub Release
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
@@ -179,3 +168,25 @@ jobs:
         artifacts: "release-artifacts/**/*"
         generateReleaseNotes: true
         allowUpdates: true
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        npm install
+
+    - name: Generate Documentation with JSDoc
+      run: |
+        npx jsdoc -c jsdoc.json
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/documentation_files
