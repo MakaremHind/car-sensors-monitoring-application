@@ -1,7 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Filter out excluded files
 FILES=$(git diff --cached --name-only | grep -v '^docs/documentation_files/')
 [ -z "$FILES" ] && exit 0 # Exit if no files to lint
 
