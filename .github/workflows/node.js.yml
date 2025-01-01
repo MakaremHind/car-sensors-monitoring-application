@@ -28,76 +28,51 @@ jobs:
           --health-retries 5
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x] # Matrix testing
+        node-version: [16.x, 18.x, 20.x]
 
     steps:
-    # Step 1: Checkout code
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # Step 2: Setup Node.js
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    # Step 3: Install dependencies
     - name: Install Dependencies
       run: |
         npm install || true
-    # Step 4: Run tests with coverage
+
     - name: Run Tests with Coverage
       env:
         MONGODB_URI: mongodb://localhost:27017/test
       run: |
         npm test || true
-    # Step 5: Upload test coverage report
+
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report-${{ matrix.node-version }}
         path: coverage/lcov-report/
 
-    # Step 6: Gitleaks - Handle Versions Separately
-
-    # Approach for 18.x
-    - name: Run Gitleaks for 18.x
-      if: matrix.node-version == '18.x'
-      uses: gitleaks/gitleaks-action@v2
-      with:
-        scan-dir: "." # Scan current directory
-
-    - name: Upload Gitleaks Report for 18.x
-      if: matrix.node-version == '18.x'
-      uses: actions/upload-artifact@v4
-      with:
-        name: gitleaks-report-${{ matrix.node-version }}
-        path: results.sarif
-
-    # Approach for 16.x and 20.x
-    - name: Install Gitleaks for 16.x and 20.x
-      if: matrix.node-version != '18.x'
+    - name: Run Gitleaks
       run: |
         curl -sSL -o gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.16.1/gitleaks_8.16.1_linux_x64.tar.gz
         tar -xzf gitleaks.tar.gz
         sudo mv gitleaks /usr/local/bin/
-    - name: Run Gitleaks for 16.x and 20.x
-      if: matrix.node-version != '18.x'
-      run: |
         gitleaks detect --source . --report-format sarif --report-path gitleaks-${{ matrix.node-version }}.sarif
-    - name: Upload Gitleaks Report for 16.x and 20.x
-      if: matrix.node-version != '18.x'
+
+    - name: Upload Gitleaks Report
       uses: actions/upload-artifact@v4
       with:
         name: gitleaks-report-${{ matrix.node-version }}
         path: gitleaks-${{ matrix.node-version }}.sarif
 
-    # Step 7: Vulnerability Check
     - name: Check Vulnerabilities
       run: |
         npm audit --audit-level=moderate || true
-    # Step 8: SonarCloud Analysis
+
     - name: SonarCloud Scan
       uses: SonarSource/sonarqube-scan-action@v4.1.0
       env:
@@ -110,31 +85,30 @@ jobs:
           -Dsonar.sources=.
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-    # Step 9: Lint Code (ESLint)
+
     - name: Run ESLint for Code Style
       run: |
         npx eslint controllers/**/*.js routes/**/*.js config/**/*.js models/**/*.js ./*.js || true
-    # Step 10: Prettier Code Formatting Check
+
     - name: Run Prettier for Code Formatting
       run: |
         npx prettier --check "controllers/**/*.js" "routes/**/*.js" "config/**/*.js" "models/**/*.js" "./*.js" || true
+
   release:
     runs-on: ubuntu-latest
     needs: test
-    if: startsWith(github.ref, 'refs/tags/') # Only run for tag pushes
+    if: startsWith(github.ref, 'refs/tags/')
 
     permissions:
       contents: write
       packages: write
 
     steps:
-    # Step 1: Checkout code
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    # Step 2: Generate Changelog
     - name: Generate Changelog
       id: changelog
       run: |
@@ -146,18 +120,22 @@ jobs:
           git log $PREV_TAG..HEAD --pretty=format:"- %s" > CHANGELOG.md
         fi
         cat CHANGELOG.md
-    # Step 3: Download Reports as Artifacts
+
     - name: Download Coverage Reports
       uses: actions/download-artifact@v4
       with:
         path: release-artifacts
 
-    # Step 4: Collect Gitleaks Reports for Release
     - name: Collect Gitleaks Reports for Release
       run: |
         mkdir -p release-artifacts/gitleaks
         cp release-artifacts/gitleaks-report-*.sarif release-artifacts/gitleaks/ || true
-    # Step 5: Create GitHub Release
+
+    - name: Package Build Artifacts with pkg
+      run: |
+        npm install -g pkg
+        pkg . --output release-artifacts/build/car-sensors-monitoring-app --targets node16-linux-x64,node16-macos-x64,node16-win-x64
+
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
@@ -168,4 +146,3 @@ jobs:
         artifacts: "release-artifacts/**/*"
         generateReleaseNotes: true
         allowUpdates: true
-
