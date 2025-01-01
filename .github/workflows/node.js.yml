@@ -169,24 +169,3 @@ jobs:
         generateReleaseNotes: true
         allowUpdates: true
 
-  deploy-docs:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Install Dependencies
-      run: |
-        npm install
-
-    - name: Generate Documentation with JSDoc
-      run: |
-        npx jsdoc -c jsdoc.json
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/documentation_files
