@@ -126,15 +126,18 @@ jobs:
       with:
         path: release-artifacts
 
-    - name: Collect Gitleaks Reports for Release
+    - name: Organize Reports and Packages
       run: |
         mkdir -p release-artifacts/gitleaks
-        cp release-artifacts/gitleaks-report-*.sarif release-artifacts/gitleaks/ || true
+        mkdir -p release-artifacts/coverage
+        mkdir -p release-artifacts/packages
+        mv release-artifacts/gitleaks-report-*.sarif release-artifacts/gitleaks/ || true
+        mv release-artifacts/coverage-report-* release-artifacts/coverage/ || true
 
     - name: Package Build Artifacts with pkg
       run: |
         npm install -g pkg
-        pkg . --output release-artifacts/build/car-sensors-monitoring-app --targets node16-linux-x64,node16-macos-x64,node16-win-x64
+        pkg . --output release-artifacts/packages/car-sensors-monitoring-app --targets node16-linux-x64,node16-macos-x64,node16-win-x64
 
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
